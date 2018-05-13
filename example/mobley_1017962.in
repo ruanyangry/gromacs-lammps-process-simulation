@@ -1,0 +1,190 @@
+# Author Ruan Yang
+# Default force field: Amber 
+
+####################################################
+  units             real
+  atom_style        full
+  dimension           3 
+  newton             on
+  boundary          p p p
+####################################################
+
+####################################################
+  pair_style lj/charmm/coul/long 10.00 12.00
+  pair_modify shift yes mix geometric
+  bond_style harmonic
+  angle_style harmonic
+  dihedral_style harmonic
+  kspace_style pppm 1.0e-4
+  special_bonds amber
+####################################################
+
+####################################################
+  read_data     mobley_1017962.data
+####################################################
+
+####################################################
+  dielectric     1.0
+  neighbor       2.0 bin
+  neigh_modify delay 0 every 1 check yes
+  run_style      verlet
+####################################################
+
+####################################################
+  timestep       1.0000
+####################################################
+
+####################################################
+  thermo_style   one
+  thermo         10 
+  run            0
+####################################################
+
+####################################################
+  shell mkdir EM
+  shell cd EM
+
+  min_style      cg
+  minimize 1.0e-5 1.0e-6 1000000 10000
+  velocity all create 300.00 4928459 
+  write_data     mobley_1017962_mini.data
+  write_restart  mobley_1017962_mini.restart
+ 
+  print "minimize done"
+  shell cd ../
+####################################################
+
+####################################################
+#  fix  Hshake  all shake 1.0e-4 10 0 t 
+####################################################
+
+####################################################
+  shell mkdir nve
+  shell cd nve
+  
+  fix    1  all   nve
+  fix    2  all   langevin  300.0   300.0  10.0  12345
+  
+  write_data    nve.data 
+  write_restart nve.restart 
+  
+  shell cd ../
+####################################################
+
+####################################################
+  shell mkdir nvt
+  shell cd nvt
+  
+  timestep       2.0000
+  reset_timestep   0
+  
+  fix 1 all nvt temp 300.0000 300.0000 100
+  
+# etotal = pe+ke
+# epair = pairwise energy (evdwl + ecoul + elong + etail)
+# emol = molecular energy (ebond + eangle + edihed + eimp)
+ 
+  thermo         1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 		ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+ 
+  dump 1 all custom 1000 mobley_1017962_nvt.lammpstrj id type x y z vx vy vz fx fy fz
+  dump_modify 1 sort 1 first no
+  
+  log     mobley_1017962_nvt.lammps
+  run     1000
+  
+  unfix   1
+  undump  1
+  
+  write_data     mobley_1017962_nvt.data 
+  write_restart  mobley_1017962_nvt.restart 
+  
+  print " nvt done"
+  
+####################################################
+
+####################################################
+  fix 1 all npt temp 300.0000 300.0000 100 iso 1.0000 1.0000 100 drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 		ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  dump 1 all custom 1000 mobley_1017962_npt.lammpstrj id type x y z vx vy vz fx fy fz
+  dump_modify 1 sort 1 first no
+  
+  log      mobley_1017962_npt.lammps
+  
+  run       1000
+  
+  unfix     1
+  undump    1
+  
+  write_data      mobley_1017962_npt.data
+  write_restart   mobley_1017962_npt.restart 
+  
+  print "npt done"
+  
+  shell cd ../
+####################################################
+
+####################################################
+  shell mkdir anneal
+  shell cd anneal
+  
+  reset_timestep 0.0
+  
+  label loopa
+  variable i loop 30
+  variable anneal_T equal 200.0000+10.0000*$i
+  
+  fix 1 all npt temp ${anneal_T} ${anneal_T} 100 iso 1.0000 1.0000 100 drag 0.2
+  
+  thermo   1000
+  thermo_style custom step temp press pe ke enthalpy evdwl ecoul elong etail ebond 			eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  dump 1 all custom 1000 ${anneal_T}_anneal.lammpstrj id type x y z vx vy vz fx fy fz
+  dump_modify 1 sort 1 first no
+  
+  log      ${anneal_T}.lammps
+  
+  run      1000
+  
+  unfix    1
+  undump   1
+  
+  write_data    ${anneal_T}_anneal.data
+  write_restart ${anneal_T}_anneal.restart
+  
+  next i
+  jump ../mobley_1017962.in loopa
+  
+  print "anneal done"
+  
+  shell cd ../
+####################################################
+  
+####################################################
+  shell mkdir nptpd
+  shell cd nptpd
+  
+  fix 1 all npt temp 300.0000 300.0000 100 iso 1.0000 1.0000 100 drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 		ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  dump 1 all custom 1000 mobley_1017962_nptpd.lammpstrj id type x y z vx vy vz fx fy fz
+  dump_modify 1 sort 1 first no
+  
+  log      mobley_1017962_nptpd.lammps
+  
+  run       10000
+  
+  unfix     1
+  undump    1
+  
+  write_data      mobley_1017962_nptpd.data
+  write_restart   mobley_1017962_nptpd.restart 
+  
+  print "nptpd done"
+  
+  shell cd ../

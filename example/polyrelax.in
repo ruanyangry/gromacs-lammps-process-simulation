@@ -1,0 +1,357 @@
+# Author Ruan Yang
+# Reference:Abbott, L. J.; Hart, K. E.; Colina, C. M. 		Polymatic: A Generalized Simulated Polymerization Algorithm for Amorphous Polymers." Theor. Chem. Acc., 2013, 132, 1334. DOI: 10.1007/s00214-013-1334-z.
+# Abbott, L. J.; Colina, C. M. Polymatic: A Simulated Polymerization Algo-rithm,Version 1.1, 2015, https://nanohub.org/resources/17278.
+# Default force field: Amber 
+
+####################################################
+  units             real
+  atom_style        full
+  dimension           3 
+  newton             on
+  boundary          p p p
+####################################################
+
+####################################################
+  pair_style lj/charmm/coul/long 10.00 12.00
+  pair_modify shift yes mix geometric
+  bond_style harmonic
+  angle_style harmonic
+  dihedral_style harmonic
+  kspace_style pppm 1.0e-4
+  special_bonds amber
+####################################################
+
+####################################################
+  read_data     chain.data
+####################################################
+
+####################################################
+  dielectric     1.0
+  neighbor       2.0 bin
+  neigh_modify delay 0 every 1 check yes
+  run_style      verlet
+####################################################
+
+####################################################
+  timestep       1.0000
+####################################################
+
+####################################################
+  shell mkdir EM
+  shell cd EM
+
+  min_style      cg
+  minimize 1.0e-5 1.0e-6 1000000 10000
+  velocity all create 1000.00 4928459 
+  write_data     polyrelax_mini.data
+  write_restart  polyrelax_mini.restart
+ 
+  print "minimize done"
+  shell cd ../
+####################################################
+
+####################################################
+  timestep       1.0000
+  reset_timestep  0
+####################################################
+
+####################################################
+  shell mkdir 21step
+  shell cd 21step
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  1_nvt.data
+  write_restart  1_nvt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  2_nvt.data
+  write_restart  2_nvt.restart
+  
+  fix  1  all  npt  temp  300.0000 300.0000 100.0 iso 1000.0000 1000.0000 100.0  drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  3_npt.data
+  write_restart  3_npt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  4_nvt.data
+  write_restart  4_nvt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  5_nvt.data
+  write_restart  5_nvt.restart
+  
+  fix  1  all  npt  temp  300.0000 300.0000 100.0 iso 30000.0000 30000.0000 100.0  drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  6_npt.data
+  write_restart  6_npt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  7_nvt.data
+  write_restart  7_nvt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  8_nvt.data
+  write_restart  8_nvt.restart
+  
+  fix  1  all  npt  temp  300.0000 300.0000 100.0 iso 50000.0000 50000.0000 100.0  drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  9_npt.data
+  write_restart  9_npt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  10_nvt.data
+  write_restart  10_nvt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  11_nvt.data
+  write_restart  11_nvt.restart
+  
+  fix  1  all  npt  temp  300.0000 300.0000 100.0 iso 25000.0000 25000.0000 100.0  drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  12_npt.data
+  write_restart  12_npt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  13_nvt.data
+  write_restart  13_nvt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  14_nvt.data
+  write_restart  14_nvt.restart
+  
+  fix  1  all  npt  temp  300.0000 300.0000 100.0 iso 5000.0000 5000.0000 100.0  drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  15_npt.data
+  write_restart  15_npt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  16_nvt.data
+  write_restart  16_nvt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  17_nvt.data
+  write_restart  17_nvt.restart
+  
+  fix  1  all  npt  temp  300.0000 300.0000 100.0 iso 500.0000 500.0000 100.0  drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  18_npt.data
+  write_restart  18_npt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  19_nvt.data
+  write_restart  19_nvt.restart
+  
+  fix  1  all  nvt  temp  1000.0000 1000.0000 100.0
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  20_nvt.data
+  write_restart  20_nvt.restart
+  
+  fix  1  all  npt  temp  300.0000 300.0000 100.0 iso 1.0000 1.0000 100.0  drag 0.2
+  
+  thermo 1000
+  thermo_style custom step temp press pe ke enthalpy evdwl 			ecoul elong etail ebond eangle edihed eimp vol density pxx pyy pzz pxy pxz pyz
+  
+  log 21step.lammps append
+  
+  run    1000
+  
+  unfix    1
+  
+  write_data  21_npt.data
+  write_restart  21_npt.restart
+  
+  print "polymer relax done"
+  shell cd ../
