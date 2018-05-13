@@ -140,4 +140,4 @@ def coordpropertiesplot(column,data,properties,combine='on',interpolate='on',kin
 
 # Test readxvg(), coordpropertiesplot()
 # column,data=readxvg('mass-d.xvg')
-# oordpropertiesplot(column,data,['density',' '],combine='off',interpolate='on',kind='cubic')
+# coordpropertiesplot(column,data,['density',' '],combine='off',interpolate='on',kind='cubic')
