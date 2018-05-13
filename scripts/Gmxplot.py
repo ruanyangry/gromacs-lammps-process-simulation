@@ -139,5 +139,5 @@ def coordpropertiesplot(column,data,properties,combine='on',interpolate='on',kin
 #write_ThermoP('mobley_1017962',ThermoP)
 
 # Test readxvg(), coordpropertiesplot()
-column,data=readxvg('mass-d.xvg')
-coordpropertiesplot(column,data,['density',' '],combine='off',interpolate='on',kind='cubic')
+# column,data=readxvg('mass-d.xvg')
+# oordpropertiesplot(column,data,['density',' '],combine='off',interpolate='on',kind='cubic')
