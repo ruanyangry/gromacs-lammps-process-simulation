@@ -136,11 +136,6 @@ molmass={'H':1.008,
          'LV':294,
          'TS':294,
          'OG':294} 
-  
-# Output Element table to check
-    
-#for k,v in molmass.items():
-#	print("%s %.2f"%(k,v))
 
 # Define load molecule smi format file function
 # File format: #Compound ID   SMILES
