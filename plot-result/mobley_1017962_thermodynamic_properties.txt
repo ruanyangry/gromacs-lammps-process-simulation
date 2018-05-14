@@ -1,0 +1,9 @@
+Temperature = 300.0565 (K)
+Pressure    = 10.4134 (Bar)
+Density     = 888.2170 (kg/m^3)
+Enthalpy of vaporization = 585.2708 (kJ/mol)
+kaiT        = 0.0000 (K)
+alphaP      = 0.0011 (1/pa)
+Cp          = 802.2763 (J/mol/K)
+Cv          = 581.0467 (J/mol/K)
+
