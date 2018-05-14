@@ -127,17 +127,3 @@ def coordpropertiesplot(column,data,properties,combine='on',interpolate='on',kin
 	np.savetxt('%s.txt'%(properties[0]),data)
 	if interpolate=='on':
 		np.savetxt('%s_interpolate.txt'%(properties[0]),datainterp1d)
-		
-		
-
-# Test readxvg(), thermodynamic_properties(),write_ThermoP() 	
-#column,data=readxvg('mobley_1017962_energy.xvg')
-#ThermoP=thermodynamic_properties(data,100)
-#print(len(column))
-#print((data))
-#print(ThermoP)
-#write_ThermoP('mobley_1017962',ThermoP)
-
-# Test readxvg(), coordpropertiesplot()
-# column,data=readxvg('mass-d.xvg')
-# coordpropertiesplot(column,data,['density',' '],combine='off',interpolate='on',kind='cubic')
