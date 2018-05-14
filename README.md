@@ -94,9 +94,10 @@
      constraints='all-bonds',rcoulomb=1.0,rvdw=1.0,tcoupl='V-rescale',ref_t=300.0,pcoupl='no',\
      pcoupltype='isotropic',ref_p=1.0)
      
-     GM.Standmdp(mdpname='nptpd',ensemble='npt',dt=0.002,nsteps = 100000,outfrequency=500,rcoulomb=1.00,rvdw=1.00,tcoupl='V-rescale',\
-     ref_t=300.0,pcoupl='Parrinello-Rahman',pcoupltype='isotropic',ref_p=1.0,GB='off',QMMM='off',Anneal='off',annealmethod='single',\
-     npoints=30,deltT=10.0,timepoint=1000,temperatureStart=100,simulationState='new',constraints='all-bonds',walls='off',\
+     GM.Standmdp(mdpname='nptpd',ensemble='npt',dt=0.002,nsteps = 100000,outfrequency=500,\
+     rcoulomb=1.00,rvdw=1.00,tcoupl='V-rescale',ref_t=300.0,pcoupl='Parrinello-Rahman',pcoupltype='isotropic',ref_p=1.0,GB='off',QMMM='off',Anneal='off',annealmethod='single',\
+     npoints=30,deltT=10.0,timepoint=1000,temperatureStart=100,simulationState='new',\
+     constraints='all-bonds',walls='off',\
      pull='off',rotation='off',NMR='off',freeenergy='off',nemd='off',tempering='off',electric='off',electrophysiology='off')		
      
      GM.Standmdp(mdpname='anneal',ensemble='npt',dt=0.002,nsteps = 1500000,outfrequency=500,rcoulomb=1.00,rvdw=1.00,tcoupl='V-rescale',\
