@@ -6,13 +6,13 @@
   
 # Pre-installed software and python code
 
-  Anaconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
-  Openbabel-2.4.1: http://openbabel.org/wiki/Main_Page
-  Antechamber: http://ambermd.org/antechamber/ac.html
-  Gaussian: http://gaussian.com/
-  PACKMOL: http://www.ime.unicamp.br/~martinez/packmol/userguide.shtml
-  Acpype.py: https://github.com/t-/acpype
-  amber2lammpsry.py: https://github.com/lammps/lammps/tree/master/tools/amber2lmp
+  Anaconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/  
+  Openbabel-2.4.1: http://openbabel.org/wiki/Main_Page  
+  Antechamber: http://ambermd.org/antechamber/ac.html  
+  Gaussian: http://gaussian.com/  
+  PACKMOL: http://www.ime.unicamp.br/~martinez/packmol/userguide.shtml  
+  Acpype.py: https://github.com/t-/acpype  
+  amber2lammpsry.py: https://github.com/lammps/lammps/tree/master/tools/amber2lmp  
   
   
   
