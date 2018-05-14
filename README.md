@@ -21,11 +21,11 @@
  # Script basic idea  
    
    1. Get SMILES format file for organic matter (web scraping with python, updates coming soon);  
-   2. Fitting molecules RESP charge (Gaussian);  
-   3. Antechamber+acpype.py generated GAFF force field files .top and .gro;  
+   2. Fitting molecules RESP charge (Gaussian);  
+   3. Antechamber+acpype.py generated GAFF force field files .top and .gro;  
    4. PACKMOL build molecules bulk system;  
    5. GROMACS and LAMMPS run molecular dynamics simulation;  
-   6. Analysis organic molecules thermodynamic and dynamics properties, store data information;  
+   6. Analysis organic molecules thermodynamic and dynamics properties, store data information;  
    7. Use machine learning methods to analyze data and find correlations among molecules properties (updates coming soon);  
    8. Plot data;  
    
