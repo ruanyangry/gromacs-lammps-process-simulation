@@ -29,6 +29,41 @@
    7. Use machine learning methods to analyze data and find correlations among molecules properties (updates coming soon);  
    8. Plot data;  
    
+ # Python code  
+   
+   GenerateFF.py: Generated organics molecules GAFF force field.
+     
+     function: loadData(): Load molecule smi format file.  
+               Smi2mol2(): Use openbabel python library pybel convert smi to .mol2.
+               readmol2(): Read mol2 file get the molecule mol mass.
+               nmolecule(): Calculated the number of molecules packed into the box. (default mass density=1000.0 kg.m3)
+               Packmolinputfile(): Write PACKMOL input file.
+               acpypeantechamber(): Generated acpypeantechamber.sh file.
+               GaussianAntechamber: Generated GaussianAntechamber.sh file.
+               
+   Gmxmdp.py: Generated GROMACS parameter control file .mdp.
+   
+     function: Emmdp(): Write basic energy minimization.  
+               Equilibrium(): write basic NVT/NPT ensemble equilibrium simulation.
+               Standmdp(): write complete parameter file. (be similar to mdpout.mdp)
+               nemd(): write non-equilibrium molecular dynamics simulation (nemd) controls parameter. (electric-field,unaxial,shear)
+               
+   GenerateSH.py: Generated HPC task management system input file (shell file).
+   
+     function: ShellF(): Write Streamline.sh (Submit computational task), analysis.sh (Use GROMACS built-in analysis tools calculated Liquid density、Surface tension、Static dielectric constant、Volumetric expansion coefficient、Isothermal compressibility and etc. Reference: http://virtualchemistry.org/index.php)
+     
+   Gmxplot.py: Read GROMACS .xvg file and plot results.
+   
+     function: readxvg(): Read .xvg file. Reference: gmx-thermo.py: https://github.com/z-gong/lab-code.
+               thermodynamic_properties(): Calculated molecules thermodynamic properties.
+               write_ThermoP(): Write thermodynamic results to file.
+               diff(): Calculation error square.
+               coordpropertiesplot(): Plot coordinate---properties or time---properties. 
+                                      The data fitting methods currently supported include polynomial fitting and interpolation. 
+                                      The fitting data is output to the file for use by third party drawing software.
+                                      
+   lmpin.py: Generated lammps contol parameters file (Default force field: Amber).   
+               
  # Usage:
  
      # _*_ coding: utf-8 _*_
