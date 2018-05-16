@@ -50,7 +50,9 @@
                
    GenerateSH.py: Generated HPC task management system input file (shell file).
    
-     function: ShellF(): Write Streamline.sh (Submit computational task), analysis.sh (Use GROMACS built-in analysis tools calculated Liquid density、Surface tension、Static dielectric constant、Volumetric expansion coefficient、Isothermal compressibility and etc. Reference: http://virtualchemistry.org/index.php)
+     function: ShellF(): Write Streamline.sh (Submit computational task), analysis.sh (Use GROMACS built-in \
+     analysis tools calculated Liquid density、Surface tension、Static dielectric constant、Volumetric expansion \
+     coefficient、Isothermal compressibility and etc. Reference: http://virtualchemistry.org/index.php)
      
    Gmxplot.py: Read GROMACS .xvg file and plot results.
    
