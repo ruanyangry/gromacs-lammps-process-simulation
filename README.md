@@ -48,7 +48,7 @@
                Standmdp(): write complete parameter file. (be similar to mdpout.mdp)
                nemd(): write non-equilibrium molecular dynamics simulation (nemd) controls parameter. (electric-field,unaxial,shear)
                
-   GenerateSH.py: Generated HPC task management system input file (shell file).
+   GenerateSH.py: Generated HPC task management system input file (shell file).  
    
      function: ShellF(): Write Streamline.sh (Submit computational task), analysis.sh (Use GROMACS built-in \
      analysis tools calculated Liquid density、Surface tension、Static dielectric constant、Volumetric expansion \
