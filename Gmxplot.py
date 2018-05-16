@@ -79,10 +79,12 @@ def write_ThermoP(molname,ThermoP):
 	
 # coordinates --- properties
 
-def polyfit():
-	pass
+def diff(n1,n2):
+	error=n1-n2
+	return np.sum(error**2)
 
-def coordpropertiesplot(column,data,properties,combine='on',interpolate='on',kind='cubic'):
+def coordpropertiesplot(column,data,properties,combine='on',interpolate=['on','cubic'],\
+polyfitv=["on",[0,1,2,3,4,5,6,7,8]]):
 	'''
 	column: define the columns properties
 	data: data file
@@ -92,14 +94,18 @@ def coordpropertiesplot(column,data,properties,combine='on',interpolate='on',kin
 	if interpolate=='on', Interpolate the data.
 	'''
 	from scipy.interpolate import interp1d
+	from numpy import polyfit
 	
 	coordinate=data[:,0]
 	m,n=data.shape
 	datainterp1d=np.zeros([m*10,n])
+	polycoefficient=np.zeros([n])
+	polyvalues=np.zeros([m,n,9])
 	
 	for i in range(1,len(column)):
-		if interpolate=='on':
-			f=interp1d(coordinate,data[:,i],kind='%s'%(kind))
+		error=[]
+		if interpolate[0]=='on':
+			f=interp1d(coordinate,data[:,i],kind='%s'%(interpolate[1]))
 			newcoordinate=np.linspace(np.min(coordinate),np.max(coordinate),m*10)
 			datainterp1d[:,i]=f(newcoordinate)
 		if combine=='on':
@@ -107,7 +113,7 @@ def coordpropertiesplot(column,data,properties,combine='on',interpolate='on',kin
 			plt.plot(coordinate,data[:,i],label='%s'%(column[i]),lw=2.0)
 			plt.plot(newcoordinate,datainterp1d[:,i],'r.',label='%s_interpolate'%(column[i]),lw=2.0)
 			plt.xlabel("coordinate (nm)")
-			plt.xticks(labelcolor='r',fontsize=16)
+			plt.xticks(fontsize=16)
 			plt.ylabel("%s %s"%(properties[0],properties[1]),fontsize=12)
 			plt.yticks(fontsize=16)
 			plt.legend(loc="best")
@@ -124,6 +130,41 @@ def coordpropertiesplot(column,data,properties,combine='on',interpolate='on',kin
 			plt.legend(loc="best")
 			plt.tight_layout()
 			plt.savefig("%s_%s.jpg"%(column[i],properties[0]),dpi=300)
+		if polyfitv[0]=="on":
+			for j in range(len(polyfitv[1])):
+				polyvalues[:,i,j]=np.polyval(np.polyfit(coordinate,data[:,i],polyfitv[1][j]),coordinate)
+				error.append(diff(polyvalues[:,i,j],data[:,i]))
+			#indexs=error.index(min(error))
+			indexs=error.index(min(error))
+			plt.figure()
+			plt.plot(coordinate,data[:,i],'b-',label='%s'%(column[i]),lw=2.0)
+			plt.plot(coordinate,polyvalues[:,i,indexs],'g-.',label='%s_polyfit'%(column[i]),lw=2.0)
+			plt.xlabel("coordinate (nm)",fontsize=12)
+			plt.xticks(fontsize=16)
+			plt.ylabel("%s %s"%(properties[0],properties[1]),fontsize=12)
+			plt.yticks(fontsize=16)
+			plt.legend(loc="best")
+			plt.tight_layout()
+			plt.savefig("%s_%s.jpg"%(column[i],properties[0]),dpi=300)
+			
+				
+			
 	np.savetxt('%s.txt'%(properties[0]),data)
 	if interpolate=='on':
 		np.savetxt('%s_interpolate.txt'%(properties[0]),datainterp1d)
+	if polyfit=="on":
+		np.savetxt('%s_polyfit.txt'%(properties[0]),polyvalues)
+		
+
+# Test readxvg(), thermodynamic_properties(),write_ThermoP() 	
+#column,data=readxvg('mobley_1017962_energy.xvg')
+#ThermoP=thermodynamic_properties(data,100)
+#print(len(column))
+#print((data))
+#print(ThermoP)
+#write_ThermoP('mobley_1017962',ThermoP)
+
+# Test readxvg(), coordpropertiesplot()
+column,data=readxvg('mass-d.xvg')
+coordpropertiesplot(column,data,['density','kg/m^3'],combine='off',interpolate=['on','cubic'],\
+polyfitv=["on",[0,1,2,3,4,5,6,7,8]])
