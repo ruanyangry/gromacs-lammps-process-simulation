@@ -50,7 +50,7 @@
                
    GenerateSH.py: Generated HPC task management system input file (shell file).  
    
-     function: ShellF(): Write Streamline.sh (Submit computational task), analysis.sh.
+     function: ShellF(): Write Streamline.sh (Submit computational task), analysis.sh.
                
      
    Gmxplot.py: Read GROMACS .xvg file and plot results.
