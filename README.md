@@ -68,13 +68,14 @@
  # Usage:
  
      # _*_ coding: utf-8 _*_
-     
+
      import GenerateFF as GF
      import Gmxmdp as GM
      import GenerateSH as GSH
      import numpy as np
      from scipy.interpolate import interp1d
      import os
+     import subprocess
      import lmpin
      import Gmxplot as GL
      
@@ -130,10 +131,9 @@
      constraints='all-bonds',rcoulomb=1.0,rvdw=1.0,tcoupl='V-rescale',ref_t=300.0,pcoupl='no',\
      pcoupltype='isotropic',ref_p=1.0)
      
-     GM.Standmdp(mdpname='nptpd',ensemble='npt',dt=0.002,nsteps = 100000,outfrequency=500,\
-     rcoulomb=1.00,rvdw=1.00,tcoupl='V-rescale',ref_t=300.0,pcoupl='Parrinello-Rahman',pcoupltype='isotropic',ref_p=1.0,GB='off',QMMM='off',Anneal='off',annealmethod='single',\
-     npoints=30,deltT=10.0,timepoint=1000,temperatureStart=100,simulationState='new',\
-     constraints='all-bonds',walls='off',\
+     GM.Standmdp(mdpname='nptpd',ensemble='npt',dt=0.002,nsteps = 100000,outfrequency=500,rcoulomb=1.00,rvdw=1.00,tcoupl='V-rescale',\
+     ref_t=300.0,pcoupl='Parrinello-Rahman',pcoupltype='isotropic',ref_p=1.0,GB='off',QMMM='off',Anneal='off',annealmethod='single',\
+     npoints=30,deltT=10.0,timepoint=1000,temperatureStart=100,simulationState='new',constraints='all-bonds',walls='off',\
      pull='off',rotation='off',NMR='off',freeenergy='off',nemd='off',tempering='off',electric='off',electrophysiology='off')		
      
      GM.Standmdp(mdpname='anneal',ensemble='npt',dt=0.002,nsteps = 1500000,outfrequency=500,rcoulomb=1.00,rvdw=1.00,tcoupl='V-rescale',\
@@ -147,6 +147,15 @@
      print('\n')
      
      GSH.ShellF(GAfilename='GaussianAntechamber',molname=name,nt=8)
+     
+     print('#-------------------------------------------------------#')
+     print('               Submit simulation tasks                   ')
+     print('#-------------------------------------------------------#')
+     print('\n')
+     
+     subprocess.Popen('dos2unix Streamline.sh',shell=True)
+     subprocess.Popen('chmod 700 Streamline.sh',shell=True)
+     subprocess.Popen('qsub Streamline.sh',shell=True)
      
      print('#-------------------------------------------------------#')
      print('                Generated LAMMPS .in file                ')
@@ -172,15 +181,17 @@
      GL.write_ThermoP('mobley_1017962',ThermoP)
      
      column,data=GL.readxvg('density.xvg')
-     GL.coordpropertiesplot(column,data,['density','kg/m^3'],combine='off',interpolate='on',kind='cubic')
+     GL.coordpropertiesplot(column,data,['density','kg/m^3'],combine='off',interpolate=['on','cubic'])
      	
      print('#-------------------------------------------------------#')
      print('SMILES convert to mol2 and packmol input file write done ')
      print('    GROMACS .mdp file and LAMMPS .in file write done     ')
      print('               Shell file write done                     ')
+     print('                    Submit jobs                          ')
      print('           Thermodynamic properties write done           ')
      print('                      Plot done                          ')
      print('#-------------------------------------------------------#')
+
 
     
  
