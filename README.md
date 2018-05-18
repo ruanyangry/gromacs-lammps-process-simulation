@@ -62,6 +62,8 @@
                coordpropertiesplot(): Plot coordinate---properties or time---properties. 
                                       The data fitting methods currently supported include polynomial fitting and interpolation. 
                                       The fitting data is output to the file for use by third party drawing software.
+               plot2D(): Plot two dimension result. (X-Y density map, load gmx densmap -od .dat file)
+               plot3D(): Plot three dimension result. (X-Y-Z density map, load gmx densmap -od .dat file)
                                       
    lmpin.py: Generated lammps contol parameters file (Default force field: Amber).   
                
