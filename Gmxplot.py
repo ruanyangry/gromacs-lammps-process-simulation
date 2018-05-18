@@ -145,26 +145,75 @@ polyfitv=["on",[0,1,2,3,4,5,6,7,8]]):
 			plt.yticks(fontsize=16)
 			plt.legend(loc="best")
 			plt.tight_layout()
-			plt.savefig("%s_%s.jpg"%(column[i],properties[0]),dpi=300)
-			
-				
-			
+			plt.savefig("%s_%s.jpg"%(column[i],properties[0]),dpi=300)	
 	np.savetxt('%s.txt'%(properties[0]),data)
 	if interpolate=='on':
 		np.savetxt('%s_interpolate.txt'%(properties[0]),datainterp1d)
 	if polyfit=="on":
 		np.savetxt('%s_polyfit.txt'%(properties[0]),polyvalues)
-		
-
-# Test readxvg(), thermodynamic_properties(),write_ThermoP() 	
-#column,data=readxvg('mobley_1017962_energy.xvg')
-#ThermoP=thermodynamic_properties(data,100)
-#print(len(column))
-#print((data))
-#print(ThermoP)
-#write_ThermoP('mobley_1017962',ThermoP)
-
-# Test readxvg(), coordpropertiesplot()
-column,data=readxvg('mass-d.xvg')
-coordpropertiesplot(column,data,['density','kg/m^3'],combine='off',interpolate=['on','cubic'],\
-polyfitv=["on",[0,1,2,3,4,5,6,7,8]])
+	
+# Draw two dimensional density map.
+	
+def plot2D(filename,method=['nearest','quadric','bicubic'],\
+cmaps=['viridis', 'plasma', 'inferno', 'magma', 'PiYG', 'PRGn', 'BrBG', 'PuOr', 'RdGy', 'RdBu']):
+	'''
+	load matrix data
+	'''
+	import matplotlib.colors as colors
+	
+	# First convert list or array to matrix
+	data=np.mat(np.loadtxt(filename))
+	
+	# Interpolation method
+	methods = [None, 'none', 'nearest', 'bilinear', 'bicubic', 'spline16',\
+	'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',\
+	'catrom', 'gaussian', 'bessel', 'mitchell', 'sinc', 'lanczos']
+	
+	# extent: define the boundary of x and y axis.
+	extent=np.min(data[:,0]),np.max(data[:,0]),np.min(data[0,:]),np.max(data[0,:])
+	
+	plt.imshow(data,interpolation=method[2],cmap=cmaps[5],extent=extent)
+	plt.xlabel('X (nm)')
+	plt.ylabel('Y (nm)')
+	plt.colorbar()
+	plt.savefig("%s-2D.jpg"%(filename),dpi=300)
+	plt.show()
+	
+def plot3D(filename):
+	'''
+	load matrix data
+	'''
+	from mpl_toolkits.mplot3d import axes3d
+	import matplotlib.pyplot as plt
+	from matplotlib import cm
+	from matplotlib.ticker import LinearLocator, FormatStrFormatter # 
+	import numpy as np
+	
+	data=np.mat(np.loadtxt(filename))
+	X,Y=np.meshgrid(data[:,0],data[0,:])
+	Z=data
+	
+	# Plot 3D surface
+	fig = plt.figure()
+	ax = fig.add_subplot(111,projection='3d')
+	surf=ax.plot_surface(X,Y,Z,cmap=cm.coolwarm,cstride=2,rstride=2)
+	
+	# Customize the z axis.
+	ax.xaxis.set_major_locator(LinearLocator(8))
+	ax.yaxis.set_major_locator(LinearLocator(8))
+	ax.zaxis.set_major_locator(LinearLocator(8))
+	ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+	ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+	ax.zaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+	
+	ax.set_xlabel("X")
+	ax.set_ylabel("Y")
+	ax.set_zlabel("Z")
+	ax.set_xlim(np.min(data[:,0]),np.max(data[:,0]))
+	ax.set_ylim(np.min(data[0,:]),np.max(data[0,:]))
+	ax.set_zlim(np.min(data[:,:]),np.max(data[:,:]))
+	
+	# Add a color bar which maps values to colors.
+	fig.colorbar(surf, shrink=0.5, aspect=5)
+	plt.savefig('%s-3D.jpg'%(filename),dpi=300)
+	plt.show()
