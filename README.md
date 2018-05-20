@@ -64,6 +64,13 @@
                                       The fitting data is output to the file for use by third party drawing software.
                plot2D(): Plot two dimension result. (X-Y density map, load gmx densmap -od .dat file)
                plot3D(): Plot three dimension result. (X-Y-Z density map, load gmx densmap -od .dat file)
+               
+   Lmpplot.py: Read lammps fix ave/chunk, fix ave/time, log and lammps trajectory file (.lammpstrj).  
+   
+      function: avechunk(): Read fix ave/chunk command output file and write out raw and average array data. Plot results.  
+                avetime(): Read fix ave/time command output file and write out raw and average array data. Plot results.  
+                readlog(): Read log command output file and write out raw array data. Plot results.  
+                readlammpstrj(): Read dump command output .lammpstrj file and write out array data.  
                                       
    lmpin.py: Generated lammps contol parameters file (Default force field: Amber).   
                
