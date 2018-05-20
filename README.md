@@ -17,6 +17,7 @@
   PACKMOL: http://www.ime.unicamp.br/~martinez/packmol/userguide.shtml  
   Acpype.py: https://github.com/t-/acpype  
   amber2lammpsry.py: https://github.com/lammps/lammps/tree/master/tools/amber2lmp  
+  scikit-learn: http://scikit-learn.org/stable/  
   
  # Script basic idea  
    
