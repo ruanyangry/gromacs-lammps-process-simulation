@@ -116,6 +116,7 @@ def readlog(filename,totstep,frequency):
 			if line.startswith("Step"):
 				comment=ignore
 				column.append(line.strip().split(' '))
+				break
 		
 		for line in lines[comment:int(totstep/frequency)+1+comment]:
 			words=line.strip().split()
