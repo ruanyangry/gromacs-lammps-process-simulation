@@ -31,6 +31,8 @@
    8. Plot data;  
    
  # Python code  
+ 
+   spidersmiles.py: Using organic registry number get SMILES form ChemSpider.(http://www.chemspider.com/)  
    
    GenerateFF.py: Generated organics molecules GAFF force field.
      
