@@ -21,7 +21,7 @@
   
  # Script basic idea  
    
-   1. Get SMILES format file for organic matter (web scraping with python, updates coming soon);  
+   1. Get SMILES format file for organic matter (web scraping with python);  
    2. Fitting molecules RESP charge (Gaussian);  
    3. Antechamber+acpype.py generated GAFF force field files .top and .gro;  
    4. PACKMOL build molecules bulk system;  
